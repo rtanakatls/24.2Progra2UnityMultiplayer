@@ -20,10 +20,18 @@ public class Player : MonoBehaviourPun
         if (photonView.IsMine)
         {
             playerNameText.text = GameData.playerName;
+            photonView.RPC("SetName", RpcTarget.AllBuffered, GameData.playerName);
             localInstance = gameObject;
         }
         DontDestroyOnLoad(gameObject);
         rb=GetComponent<Rigidbody>();
+    }
+
+
+    [PunRPC]
+    private void SetName(string playerName)
+    {
+        playerNameText.text = playerName;
     }
 
     // Update is called once per frame
